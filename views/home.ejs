@@ -1,0 +1,26 @@
+<!-- views/home.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('./partials/head') %>
+    <title>Home</title>
+</head>
+<body>
+    <%-include('./partials/nav')%> 
+    <% if(typeof blogs != "undefined" && blogs){%>
+      <div class="container mx-5 mt-4  gap-4 row row-cols-3">
+        <% blogs.forEach(blog=>{ %>  
+        <div class="card " style="width: 18rem;">
+    
+  <img src="/<%=blog.coverImage %>" class="card-img-top" alt="...">
+  <div class="col">
+    <h5 ><%= blog.title %></h5>
+    <a href="/blog/<%=blog._id %>" class="btn btn-primary">View</a>
+  </div>
+</div>
+<% }) %>
+</div>
+<%}%>
+    <%-include('./partials/script')%>
+</body>
+</html>

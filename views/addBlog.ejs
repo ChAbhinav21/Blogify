@@ -1,0 +1,28 @@
+<!-- views/addBlog.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Blog </title>
+    <%- include('./partials/head')%>
+</head>
+<body>
+    <form class="container mt-4 d-grid gap-3" method="post" action="/blog" enctype="multipart/form-data">
+      <div class="mb-3">
+            <label for="CoverImg">CoverImage :</label>
+       <input type="file" name="coverImage" id="CoverImg">
+        </div>
+        <label>Title :</label>
+        <input type="text" name="title">
+        <div class=" ">
+            <label for="floatingTextarea">Body :</label>
+  <textarea class="form-control" name="body"  id="floatingTextarea"></textarea>
+</div>
+       
+ 
+      <button type="submit" class="btn btn-primary">Submit</button>
+
+    </form>
+</body>
+</html>

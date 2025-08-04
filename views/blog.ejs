@@ -1,0 +1,44 @@
+<!-- views/blog.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('./partials/head') %>
+    <title>Home</title>
+</head>
+<body>
+    <%-include('./partials/nav')%>
+   
+   
+      <div class="container mt-4">
+ 
+  <img style="width: 700px;" src="/<%=blog.coverImage %>" class="card-img-top" alt="...">
+  <div class="mt-4">
+    <h4 ><%= blog.title %></h4>
+    <pre class="mt-3"><%=blog.body %></pre>
+ 
+</div>
+ <!-- comment userblog -->
+      <div> 
+        <img src="<%=blog.createdBy.profileImgURL %>" alt="..." style="width: 50px;"><%= blog.createdBy.FullName %>
+    </div>
+
+    <h1>Comments (<%=comments.length %>)</h1> 
+   <% if(locals.user){ %>
+        
+     <form method="post" action="/blog/comment/<%= blog._id %>" class="container mt-4">
+            <input type="text" class="form-control" placeholder="Enter your Comment"  name="Content">
+ 
+      <button type="submit" class="btn btn-primary mt-2">Add</button>
+        </p>
+    </form>
+    
+    <% } %>
+    <div>
+        <% comments.forEach(comment=>{ %>
+            <img src="<%=comment.createdBy.profileImgURL %>" alt="..." style="width: 50px;"><%= comment.createdBy.FullName %>
+            <pre><%=comment.Content%></pre>
+            <% }) %>
+        </div>
+    <%-include('./partials/script')%>
+</body>
+</html>

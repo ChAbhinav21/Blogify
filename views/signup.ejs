@@ -1,0 +1,154 @@
+<!-- views/signup.ejs -->
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('./partials/head') %>
+  <title>Signup</title>
+  <style>
+    .container {
+      margin-top: 50px;
+      width: 300px;
+    }
+
+    button {
+      background-color: yellow;
+      color: black;
+      width: 100px;
+      border-radius: 10px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    input, button {
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    #password-suggestion {
+      display: none;
+      font-style: italic;
+      color: #555;
+      margin-top: 5px;
+      cursor: pointer;
+      background: #f0f0f0;
+      padding: 5px;
+      border-radius: 5px;
+      transition: 0.3s;
+    }
+
+    #password-suggestion:hover {
+      background: #ddd;
+    }
+
+    #strength-bar {
+      width: 100%;
+      height: 10px;
+    }
+
+    progress::-webkit-progress-bar {
+      background-color: #eee;
+      border-radius: 10px;
+    }
+
+    progress::-webkit-progress-value {
+      border-radius: 10px;
+      background-color: green; /* Will be updated dynamically */
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <form method="post" action="/user/signup">
+      <label>FullName:</label>
+      <input type="text" name="FullName" placeholder="enter fullname">
+
+      
+      <label>Email:</label>
+      <input type="text" name="email" placeholder="enter email">
+      <% if(typeof exist != "undefined" && exist){ %>
+        <p style="color: red;">Email Already exist</p>
+      <% } %>
+
+      <label>Password:</label>
+      <input type="password" name="password" id="password" onfocus="showSuggestion()">
+      <div id="password-suggestion" onclick="useSuggestedPassword()"></div>
+
+      <progress max="100" min="0" id="strength-bar"></progress>
+      <p id="msg"></p>
+        <% if(typeof field != "undefined" && field){%>
+          <p style="color:red">All fields Required</p>
+    <%    }%>
+      <button type="submit">Signup</button> 
+      <p>already Registered ? <a style="display: inline;font-size: 20px;" href="/user/signin"> SignIn</a>
+       </p>
+      </form>
+  </div>
+
+  <script>
+    const pass = document.getElementById("password");
+    const suggest = document.getElementById("password-suggestion");
+    const bar = document.getElementById("strength-bar");
+    const msg = document.getElementById("msg");
+
+    pass.addEventListener("input", () => {
+      const val = pass.value;
+      let score = 0;
+
+      if (val.length >= 8) score += 20;
+      if (/[a-z]/.test(val)) score += 20;
+      if (/[A-Z]/.test(val)) score += 20;
+      if (/[0-9]/.test(val)) score += 20;
+      if (/[^a-zA-Z0-9]/.test(val)) score += 20;
+
+      bar.value = score;
+
+      // Display strength messages
+      if (score <= 40) {
+        msg.innerText = 'Weak 😟';
+        bar.style.backgroundColor = 'red';
+      } else if (score <= 60) {
+        msg.innerText = 'Moderate 🙂';
+        bar.style.backgroundColor = 'orange';
+      } else if (score < 100) {
+        msg.innerText = 'OK';
+        bar.style.backgroundColor = 'blue';
+      } else {
+        msg.innerText = 'Strong 💪';
+        bar.style.backgroundColor = 'green';
+      }
+    });
+
+    // Generates strong password
+    function generatePassword(length = 12) {
+      const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+      let password = "";
+      for (let i = 0; i < length; i++) {  // ✅ fixed loop boundary
+        password += charset[Math.floor(Math.random() * charset.length)];
+      }
+      return password;
+    }
+
+    // Show password suggestion
+    function showSuggestion() {
+      const generated = generatePassword();
+      suggest.textContent = `Can I suggest a strong password? Click to use it.`;
+      suggest.dataset.password = generated;
+      suggest.style.display = 'block';
+    }
+
+    // Apply suggested password on click
+    function useSuggestedPassword() {
+      const password = suggest.dataset.password;
+      pass.value = password;
+      suggest.style.display = "none";
+      pass.dispatchEvent(new Event("input")); // ✅ Recalculate strength
+    }
+  </script>
+</body>
+</html>
+
