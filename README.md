@@ -13,7 +13,7 @@ It includes user auth, blog CRUD, comments, and JWT-based route protection.
 - Comment on posts
 - Responsive UI (views in EJS)
 - View user dashboards, profile images (upload)
-- URL shortening & analytics (if included)
+ 
 
 ---
 
