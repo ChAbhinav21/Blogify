@@ -57,7 +57,7 @@ router.post('/signin', async (req, res) => {
         const token = await User.matchPasswordAndGenerateToken(email, password);
         
         res.cookie("token", token);
-         return res.render('home',{user:req.user});
+        return res.render('home',{user:req.user});
     } catch (err) {
         req.session.error = "Invalid email or password";
         return res.redirect('/user/signin');
