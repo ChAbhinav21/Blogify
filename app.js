@@ -28,8 +28,8 @@ app.use(session({
   saveUninitialized: true
 }));
 
-console.log("My name is",process.env.myname);//environment variable are nothing but dynamic variables
-app.use(express.static(path.resolve('./public')))//by default expressdo not serve static routes(Cannot GET /uploads/1754048223639-Ayyappa.jpg) by this it will allow opening images in uploads
+console.log("My name is",process.env.myname);//environment variable are nothnamiing but dyc variables
+app.use(express.static(path.resolve('./public')))//express.static is used to serve static files like Images(uploads/1754048223639-Ayyappa.jpgby),html,css,js,fonts..etc     
 app.use(checkforAuthCookie)/* it always checks weather token exists or not */
 app.use('/user',userRoute)
 app.use('/blog',blogRouter)
